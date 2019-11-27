@@ -38,8 +38,12 @@
   when: tdagent_plugins is defined or tdagent_plugins_versions is defined
 
 
-- name: set INIT status and start
-  service: name=td-agent state=started enabled=yes
+- name: set systemd service wrapper and start
+  systemd:
+    name: td-agent
+    state: started
+    enabled: yes
+    daemon_reload: yes
   when: tdagent_use_service|bool
 
 - name: set INIT status (SysV style)
